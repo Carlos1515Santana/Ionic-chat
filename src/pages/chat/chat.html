@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{sala.nome}}</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-list no-lines *ngFor="let mensagem of sala.mensagens.slice().reverse()">
+        <ion-card>
+            <ion-card-content>
+                <ion-icon [name]="mensagem.usuario.icone"></ion-icon> {{mensagem.usuario.nome}}: {{mensagem.texto}}
+            </ion-card-content>
+        </ion-card>
+    </ion-list>
+</ion-content>
+
+<ion-footer>
+    <ion-item>
+        <ion-input item-start [(ngModel)]="texto" type="text" placeholder="Mensagem"></ion-input>
+        <button color="dark" item-end ion-fab (click)="enviarMensagem(usuario, texto)">Enviar</button>
+    </ion-item>
+</ion-footer>

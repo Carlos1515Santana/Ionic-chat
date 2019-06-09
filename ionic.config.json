@@ -1,0 +1,7 @@
+{
+  "name": "ccp3anmca_deswebmob_chat",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
