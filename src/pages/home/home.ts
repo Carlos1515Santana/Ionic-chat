@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+
 import { AngularFireDatabase } from 'angularfire2/database';
+
 import { SalaService } from '../../app/sala.service'
 
 
@@ -11,29 +13,39 @@ import { SalaService } from '../../app/sala.service'
 })
 export class HomePage {
 
+  salas;
+
   constructor(public navCtrl: NavController, private salaService: SalaService, private alertCtrl: AlertController, db: AngularFireDatabase) {
-    console.log(db)
+    // this.salaService.start()
+    this.salas = this.salaService.fetchSalas();
   }
 
   onEntrarClick(nome, sala, icone) {
-    console.log("icone:", icone)
-    if (!this.salaService.nomeNaSala(nome, sala)) {
-      sala = this.salaService.salas[sala.id];
-      const usuario = {
-        nome: nome,
-        icone: icone
+    const usuario = {
+      nome: nome,
+      icone: icone
+    }
+    let i = 0;
+    this.salaService.getUsuario(sala, nome).subscribe(x => {
+      if(i == 0){
+        i = 1
+        if(!x.some(y => y.nome === usuario.nome)){
+          this.navCtrl.push('ChatPage', {
+            usuarioParam: usuario,
+            salaParam: sala,
+            usuarioKey: this.salaService.addUsuario(usuario, sala)
+          })
+        }
+        else {
+          this.alertCtrl.create({
+            title: 'Usuario já existente.',
+            subTitle: 'O nome o usuario deve ser único.',
+            buttons: ['OK']
+          }).present();
+        }
       }
-      sala.usuarios.push(usuario);
-      this.navCtrl.push('ChatPage', {
-        usuarioParam: usuario,
-        salaParam: sala
-      })
-    }
-    else {
-      this.alertCtrl.create({
-        title: 'Usuario já existente.',
-        buttons: ['OK']
-      }).present()
-    }
+    });
+
+
   }
 }

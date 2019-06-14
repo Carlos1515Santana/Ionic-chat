@@ -14,12 +14,11 @@
     <ion-item>
         <ion-label>Sala:</ion-label>
         <ion-select [(ngModel)]="sala" interface="action-sheet">
-            <ion-option *ngFor="let sala of salaService.salas" [value]="sala">{{sala.nome}}</ion-option>
+            <ion-option *ngFor="let sala of salas | async" [value]="sala">{{sala.nome}}</ion-option>
         </ion-select>
     </ion-item>
 
-    <ion-label id="identificado">Lista de Icones</ion-label>
-    <ion-list class="list" [(ngModel)]="iconeSelecionado" radio-group>
+    <ion-list [(ngModel)]="iconeSelecionado" radio-group>
         <ion-item *ngFor="let icone of salaService.icones">
             <ion-label>
                 <ion-icon [name]="icone"></ion-icon>
@@ -27,5 +26,5 @@
             <ion-radio [value]="icone"></ion-radio>
         </ion-item>
     </ion-list>
-    <button color="dark" ion-button full (click)="onEntrarClick(nome, sala, iconeSelecionado)">Entrar</button>
+    <button ion-button full (click)="onEntrarClick(nome, sala, iconeSelecionado)">Entrar</button>
 </ion-content>
